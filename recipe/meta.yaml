@@ -21,9 +21,9 @@ requirements:
     - pip
     - setuptools
     - setuptools_scm >=1.70
+    - wheel
   run:
     - python
-    - setuptools >=0.7
     - six >=1.4.0
     - pytz
     - tzlocal >=2.0,!=3.*
