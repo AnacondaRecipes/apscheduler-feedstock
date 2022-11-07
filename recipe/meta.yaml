@@ -48,14 +48,23 @@ test:
     - apscheduler.schedulers.blocking
     - apscheduler.triggers
     - apscheduler.triggers.cron
+  commands:
+    - pip check
+    
 
 about:
   home: https://github.com/agronholm/apscheduler
+  description: |
+    Advanced Python Scheduler (APScheduler) is a Python library that lets you schedule 
+    your Python code to be executed later, either just once or periodically. 
   license: MIT
+  license_family: MIT
   license_file: LICENSE.txt
+  license_url: https://github.com/agronholm/apscheduler/blob/{{ version }}/LICENSE.txt
   summary: In-process task scheduler with Cron-like capabilities
   dev_url: https://github.com/agronholm/apscheduler
   doc_url: https://apscheduler.readthedocs.io
+  doc_source_url: https://github.com/agronholm/apscheduler/tree/v{{ version }}/docs
 
 extra:
   recipe-maintainers:
