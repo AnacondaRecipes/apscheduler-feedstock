@@ -26,9 +26,6 @@ requirements:
     - six >=1.4.0
     - pytz
     - tzlocal >=2.0,!=3.*
-    - futures  # [py27]
-    - funcsigs  # [py<35]
-    - trollius  # [py27]
 
 test:
   imports:
