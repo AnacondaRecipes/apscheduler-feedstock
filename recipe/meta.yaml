@@ -29,14 +29,6 @@ requirements:
     - futures  # [py27]
     - funcsigs  # [py<35]
     - trollius  # [py27]
-    - gevent
-    - pymongo >=3.0
-    - redis >=3.0
-    # - rethinkdb >=2.4.0
-    - sqlalchemy >=0.8
-    - tornado >=4.3
-    - twisted
-    # - kazoo
 
 test:
   imports:
