@@ -1,6 +1,6 @@
 {% set name = "APScheduler" %}
-{% set version = "3.9.0" %}
-{% set hash_val = "c7a0935b4e2509393615107d9d031114b7fa4f834619b883a06ed1641cd71a51" %}
+{% set version = "3.7.0" %}
+{% set hash_val = "1cab7f2521e107d07127b042155b632b7a1cd5e02c34be5a28ff62f77c900c6a" %}
 
 package:
   name: {{ name|lower }}
@@ -11,7 +11,6 @@ source:
   sha256: {{ hash_val }}
 
 build:
-  skip: True #[py<37]
   number: 0
   script: {{ PYTHON }} -m pip install . -vv
 
@@ -20,14 +19,16 @@ requirements:
     - python
     - pip
     - setuptools
-    - setuptools_scm
-    - wheel
+    - setuptools_scm >=1.70
   run:
     - python
-    - setuptools >=0.7
+    - setuptools
     - six >=1.4.0
     - pytz
-    - tzlocal >=2.0,!=3.*
+    - tzlocal >=2.0,<2.1
+    - futures  # [py27]
+    - funcsigs  # [py27]
+    - trollius  # [py27]
 
 test:
   imports:
@@ -38,19 +39,10 @@ test:
     - apscheduler.schedulers.blocking
     - apscheduler.triggers
     - apscheduler.triggers.cron
-  requires:
-    - pip
-  commands:
-    - pip check
-    
 
 about:
   home: https://github.com/agronholm/apscheduler
-  description: |
-    Advanced Python Scheduler (APScheduler) is a Python library that lets you schedule 
-    your Python code to be executed later, either just once or periodically. 
   license: MIT
-  license_family: MIT
   license_file: LICENSE.txt
   summary: In-process task scheduler with Cron-like capabilities
   dev_url: https://github.com/agronholm/apscheduler
