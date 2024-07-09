@@ -1,6 +1,5 @@
 {% set name = "APScheduler" %}
-{% set version = "3.9.0" %}
-{% set hash_val = "c7a0935b4e2509393615107d9d031114b7fa4f834619b883a06ed1641cd71a51" %}
+{% set version = "3.10.4" %}
 
 package:
   name: {{ name|lower }}
@@ -8,26 +7,26 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ hash_val }}
+  sha256: e6df071b27d9be898e486bc7940a7be50b4af2e9da7c08f0744a96d4bd4cef4a
 
 build:
-  skip: True #[py<37]
+  skip: True  # [py<36]
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
   host:
     - python
     - pip
     - setuptools
-    - setuptools_scm
+    - setuptools-scm
     - wheel
   run:
     - python
-    - setuptools >=0.7
     - six >=1.4.0
     - pytz
     - tzlocal >=2.0,!=3.*
+    - importlib-metadata >=3.6.0  # [py<38]
 
 test:
   imports:
@@ -42,13 +41,12 @@ test:
     - pip
   commands:
     - pip check
-    
 
 about:
   home: https://github.com/agronholm/apscheduler
   description: |
     Advanced Python Scheduler (APScheduler) is a Python library that lets you schedule 
-    your Python code to be executed later, either just once or periodically. 
+    your Python code to be executed later, either just once or periodically.
   license: MIT
   license_family: MIT
   license_file: LICENSE.txt
