@@ -27,6 +27,12 @@ requirements:
     - pytz
     - tzlocal >=2.0,!=3.*
     - importlib-metadata >=3.6.0  # [py<38]
+  run_constrained:
+    - pymongo >= 3.0
+    - redis >= 3.0
+    - rethinkdb >= 2.4.0
+    - sqlalchemy >= 1.4
+    - tornado >= 4.3
 
 test:
   imports:
