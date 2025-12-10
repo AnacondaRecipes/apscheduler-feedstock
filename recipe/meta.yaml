@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/A/APScheduler/apscheduler-3.11.1.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|lower }}-{{ version }}.tar.gz
   sha256: 0db77af6400c84d1747fe98a04b8b58f0080c77d11d338c4f507a9752880f221
 
 build:
@@ -22,21 +22,19 @@ requirements:
     - setuptools-scm >=6.4
   run:
     - python
-    - six >=1.4.0
-    - pytz
     - tzlocal >=3.0
-    - importlib-metadata >=3.6.0  # [py<38]
     - backports.zoneinfo  # [py<39]
   run_constrained:
+    - protobuf <=3.21.0
     - pymongo >=3.0
     - redis >= 3.0
     - rethinkdb >=2.4.0
     - sqlalchemy >=1.4
     - tornado >=4.3
-    - protobuf <=3.21.0
-    - redis-py >=3.0
 
 test:
+  source_files:
+    - tests
   imports:
     - apscheduler
     - apscheduler.executors
@@ -47,8 +45,14 @@ test:
     - apscheduler.triggers.cron
   requires:
     - pip
+    - pytest
+    - pytz
+    - tornado
+    - anyio
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v tests
 
 about:
   home: https://github.com/agronholm/apscheduler
