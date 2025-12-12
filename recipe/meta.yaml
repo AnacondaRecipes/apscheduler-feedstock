@@ -51,7 +51,7 @@ test:
     - pytest
     - pytz
     - tornado
-    - anyio
+    - anyio >=4.5.2
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
