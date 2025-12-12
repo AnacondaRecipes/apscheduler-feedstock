@@ -1,16 +1,16 @@
 {% set name = "APScheduler" %}
-{% set version = "3.10.4" %}
+{% set version = "3.11.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: e6df071b27d9be898e486bc7940a7be50b4af2e9da7c08f0744a96d4bd4cef4a
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|lower }}-{{ version }}.tar.gz
+  sha256: 0db77af6400c84d1747fe98a04b8b58f0080c77d11d338c4f507a9752880f221
 
 build:
-  skip: True  # [py<36]
+  skip: true  # [py<38]
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
@@ -18,23 +18,26 @@ requirements:
   host:
     - python
     - pip
-    - setuptools
-    - setuptools-scm
-    - wheel
+    - setuptools >=64
+    - setuptools-scm >=6.4
   run:
     - python
-    - six >=1.4.0
-    - pytz
-    - tzlocal >=2.0,!=3.*
-    - importlib-metadata >=3.6.0  # [py<38]
+    - tzlocal >=3.0
+    - backports.zoneinfo  # [py<39]
   run_constrained:
-    - pymongo >= 3.0
+    - protobuf <=3.21.0
+    - pymongo >=3.0
     - redis >= 3.0
-    - rethinkdb >= 2.4.0
-    - sqlalchemy >= 1.4
-    - tornado >= 4.3
+    - rethinkdb >=2.4.0
+    - sqlalchemy >=1.4
+    - tornado >=4.3
+
+# assert 96772 != 96772
+{% set deselect_tests = " --deselect=tests/test_executors.py::test_broken_pool" %}
 
 test:
+  source_files:
+    - tests
   imports:
     - apscheduler
     - apscheduler.executors
@@ -45,13 +48,19 @@ test:
     - apscheduler.triggers.cron
   requires:
     - pip
+    - pytest
+    - pytz
+    - tornado
+    - anyio >=4.5.2
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v tests {{ deselect_tests }}
 
 about:
   home: https://github.com/agronholm/apscheduler
   description: |
-    Advanced Python Scheduler (APScheduler) is a Python library that lets you schedule 
+    Advanced Python Scheduler (APScheduler) is a Python library that lets you schedule
     your Python code to be executed later, either just once or periodically.
   license: MIT
   license_family: MIT
